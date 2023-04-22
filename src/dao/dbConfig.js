@@ -3,7 +3,7 @@ import config from '../config/config.js';
 
 
 
-// console.log('el mongo url es: ' + config.port)
+console.log('el mongo url es: ' + config.mongoUrl)
 const URI = config.mongoUrl;
 
 try {
