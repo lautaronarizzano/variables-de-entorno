@@ -22,15 +22,6 @@ import cookieParser from 'cookie-parser'
 
 const app = express()
 
-// const URI = config.mongoUrl;
-// console.log(URI)
-
-// try {
-//     await mongoose.connect(URI)
-// } catch (error) {
-//     console.log(error)
-// }
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(`${__dirname}/public`))
@@ -39,7 +30,7 @@ app.use(cookieParser());
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://lautaronarizzano:QZoTw0N0bZ1xU1Te@codercluster.2kusi8q.mongodb.net/?retryWrites=true&w=majority',
+        mongoUrl: config.mongoUrl,
         mongoOptions: { useNewUrlParser: true },
         ttl: 3600
     }),
@@ -51,7 +42,7 @@ app.use(session({
 //config passport
 initializePassport()
 app.use(passport.initialize())
-// app.use(passport.session())
+app.use(passport.session())
 
 //config de nuestras vistas
 app.engine('handlebars', handlebars.engine())
@@ -65,7 +56,7 @@ app.use('/api/carts', cartsRouter)
 app.use('/api/sessions', sessionsRouter)
 app.use('/api/auth', sessionsRouter)
 
-app.listen(8080, () => console.log('Server running on port 8080'))
+app.listen(Number(config.port), () => console.log(`Server running on port ${config.port}`))
 
 // const io = new Server(server)
 
